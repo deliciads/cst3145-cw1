@@ -14,13 +14,15 @@
             </header>
 
             <main>
+                <div v-for="lesson in lessons">
                 <figure>
                     <img v-bind:src="lesson.image" width=250px height=250px>
                 </figure>
                 <h2 v-text="lesson.title"></h2>
                 <p v-html="lesson.location"></p>
                 <p>Price: Dhs {{lesson.price}}</p>
-                <p>Space: </p>
+                <p>Space: {{lesson.availableSpace}}</p>
+            </div>
             </main>
         </div>
 
@@ -30,7 +32,6 @@
                 data: {
                     sitename: 'School Lessons',
                     lessons: lessons,
-                    cart: []
                 }
             })
         </script>
