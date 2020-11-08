@@ -1,0 +1,41 @@
+<html>
+
+    <head>
+        <title>School Lessons</title>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="lessons.js"></script>
+        <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    </head>
+
+    <body>
+        <div id="app">
+            <header>
+                <h1 v-text="sitename"></h1>
+            </header>
+
+            <main>
+                <figure>
+                    <img v-bind:src="lesson.image" width=250px height=250px>
+                </figure>
+                <h2 v-text="lesson.title"></h2>
+                <p v-html="lesson.location"></p>
+                <p>Price: Dhs {{lesson.price}}</p>
+                <p>Space: </p>
+            </main>
+        </div>
+
+        <script type="text/javascript">
+            var webstore = new Vue({
+                el: '#app',
+                data: {
+                    sitename: 'School Lessons',
+                    lessons: lessons,
+                    cart: []
+                }
+            })
+        </script>
+            
+    </body>
+
+   
+</html>
