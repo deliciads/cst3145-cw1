@@ -19,6 +19,10 @@
                     v-on:click="sortDescending">
                     Descending Price
                 </button>
+                <button>
+                    {{ cartItemCount }}
+                    <span class="fas fa-cart-plus"></span> Shopping Cart
+                </button>
             </header>
 
             <main>
@@ -29,7 +33,17 @@
                 <h2 v-text="lesson.title"></h2>
                 <p v-html="lesson.location"></p>
                 <p>Price: Dhs {{lesson.price}}</p>
-                <p>Space: {{lesson.availableSpace}}</p>
+                <p>Space: {{lesson.availableSpace - cartCount(lesson.id)}}</p>
+
+                <button
+                    v-on:click="addToCart(lesson)"
+                    v-if="canAddToCart(lesson)">
+                    Add to Cart
+                </button>
+
+                <button disabled='disabled' v-else>
+                    Add to Cart
+                </button>
             </div>
             </main>
         </div>
@@ -40,6 +54,7 @@
                 data: {
                     sitename: 'School Lessons',
                     lessons: lessons,
+                    cart: []
                 },
                 methods: {
                     sortAscending() {
@@ -47,14 +62,41 @@
                             return a.price - b.price;
                         }
                         this.lessons.sort(ascendingData);
-                        },
+                    },
                         
                     sortDescending() {
                         function descendingData(a, b) {
                             return b.price - a.price;
                         }
                         this.lessons.sort(descendingData);
-                        }    
+                    },
+                        
+                    addToCart(lesson) {
+                        this.cart.push(lesson.id);
+                    },
+
+                    canAddToCart(lesson) {
+                        return lesson.availableSpace > this.cartCount(lesson.id);
+                    },
+
+                    cartCount(id) {
+                        let count = 0;
+                        for (let i = 0; i < this.cart.length; i++) {
+                            if (this.cart[i] === id) {
+                                count++;
+                            }
+                        }
+                        return count;
+                    }
+
+                },
+                computed: {
+                    cartItemCount: function() {
+                        return this.cart.length;
+                    }
+                    //canAddToCart: function () {
+                      //  return this.lesson.availableSpace > this.cartItemCount;
+                    //}
                 }
             })
         </script>
