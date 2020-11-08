@@ -11,6 +11,14 @@
         <div id="app">
             <header>
                 <h1 v-text="sitename"></h1>
+                <button 
+                    v-on:click="sortAscending">
+                    Ascending Price
+                </button>
+                <button
+                    v-on:click="sortDescending">
+                    Descending Price
+                </button>
             </header>
 
             <main>
@@ -32,11 +40,24 @@
                 data: {
                     sitename: 'School Lessons',
                     lessons: lessons,
+                },
+                methods: {
+                    sortAscending() {
+                        function ascendingData(a, b) {
+                            return a.price - b.price;
+                        }
+                        this.lessons.sort(ascendingData);
+                        },
+                        
+                    sortDescending() {
+                        function descendingData(a, b) {
+                            return b.price - a.price;
+                        }
+                        this.lessons.sort(descendingData);
+                        }    
                 }
             })
         </script>
             
-    </body>
-
-   
+    </body>  
 </html>
