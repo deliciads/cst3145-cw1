@@ -11,21 +11,29 @@
         <div id="app">
             <header>
                 <h1 v-text="sitename"></h1>
-                <button 
-                    v-on:click="sortAscending">
-                    Ascending Price
-                </button>
-                <button
-                    v-on:click="sortDescending">
-                    Descending Price
-                </button>
-                <button>
-                    {{ cartItemCount }}
-                    <span class="fas fa-cart-plus"></span> Shopping Cart
-                </button>
             </header>
 
             <main>
+                <div v-if='showProduct'>
+                        <button 
+                        v-on:click="sortAscending">
+                        Ascending Price
+                    </button>
+                    <button
+                        v-on:click="sortDescending">
+                        Descending Price
+                    </button>
+    
+                    <button 
+                        v-on:click = 'showCheckout'
+                        v-if=cartItemCount> 
+                        {{ cartItemCount }}
+                        <span class="fas fa-cart-plus"></span> Shopping Cart
+                    </button>
+                    <button disabled='disabled' v-else>
+                        Shopping Cart
+                    </button>
+
                 <div v-for="lesson in lessons">
                 <figure>
                     <img v-bind:src="lesson.image" width=250px height=250px>
@@ -45,6 +53,28 @@
                     Add to Cart
                 </button>
             </div>
+            </div>
+
+                <div v-else>
+                 
+                    <button v-on:click = 'showCheckout'>Back</button>
+                    <h2> Shopping Cart </h2>
+                    
+
+                    <h2>Checkout</h2>
+                    <p>
+                        <strong>Name: </strong>
+                        <input v-model.trim="order.name"/>
+                    </p>
+                    <p>
+                        <strong>Phone: </strong>
+                        <input v-model.trim="order.phone"/>
+                    </p>
+
+                    <!--<button disabled='disabled' v-if="checkInfo">Checkout</button>-->
+                    <!--<button v-else>Checkout</button>-->
+                    
+                </div>
             </main>
         </div>
 
@@ -54,7 +84,12 @@
                 data: {
                     sitename: 'School Lessons',
                     lessons: lessons,
-                    cart: []
+                    cart: [],
+                    showProduct: true,
+                    order: {
+                        name: '',
+                        phone: ''
+                    }
                 },
                 methods: {
                     sortAscending() {
@@ -87,13 +122,28 @@
                             }
                         }
                         return count;
-                    }
+                    },
+
+                    showCheckout () {
+                        this.showProduct = this.showProduct ? false : true;
+                    },
+
+                    //checkInfo (order) {
+                      //  if (order.name != 'abcd') {
+                        //    alert("error");
+                        //}
+                       // else {
+                         //   alert('not valid');
+                        //}
+                    //}
 
                 },
                 computed: {
                     cartItemCount: function() {
                         return this.cart.length;
-                    }
+                    },
+
+                    
                     //canAddToCart: function () {
                       //  return this.lesson.availableSpace > this.cartItemCount;
                     //}
